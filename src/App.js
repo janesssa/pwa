@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import useFetch from './hooks/fetch'
 
-function App() {
+import ProjectBlock from "./components/ProjectBlock";
+import "./App.css";
+
+const App = () => {
+  const [data, loading] = useFetch('https://cmgt.hr.nl:8000/api/projects/')
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>Projecten</h1>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        data.projects.map(project => {
+          return <ProjectBlock project={project} />;
+        })
+      )}
     </div>
   );
-}
+};
 
 export default App;
